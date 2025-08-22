@@ -18,7 +18,9 @@ async function EditProductPage({
   params: Promise<{ id: string }>;
 }) {
   const { id } = await params;
+
   const product = await getItem(id);
+
   const {
     name,
     description,
