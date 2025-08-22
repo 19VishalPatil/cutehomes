@@ -5,10 +5,9 @@ import { formatCurrency } from "@/utils/format";
 import FavoriteToggleButton from "@/components/products/FavoriteToggleButton";
 import AddToCart from "@/components/single-product/AddToCart";
 import ProductRating from "@/components/single-product/ProductRating";
+import { getItem } from "@/lib/api/items";
 import Container from "@/components/global/Container";
 import SingleProductCarousel from "@/components/single-product/SingleProductCarousel";
-import { fetchJSON } from "@/lib/api/edge-compatible-api";
-import { Item } from "@/lib/api/types/itemTypes/item";
 
 async function SingleProductPage({
   params,
@@ -17,11 +16,7 @@ async function SingleProductPage({
 }) {
   const { id } = await params;
 
-  const product = await fetchJSON<{ data: Item }>(
-    `${process.env.NEXT_PUBLIC_API_URL}/items/${id}`
-  );
-
-  // const product = await getItem(id);
+  const product = await getItem(id);
 
   const { name, media, description, sellingPrice } = product.data;
 

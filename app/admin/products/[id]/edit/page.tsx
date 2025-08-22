@@ -6,12 +6,11 @@ import FormInput from "@/components/form/FormInput";
 import PriceInput from "@/components/form/PriceInput";
 import TextAreaInput from "@/components/form/TextAreaInput";
 import { SubmitButton } from "@/components/form/Buttons";
+import { getItem } from "@/lib/api/items";
 import { CategoryMultiSelectInput } from "@/components/form/CategoryMultiSelectInput";
 import MediaInput from "@/components/form/MediaInput";
+import { getCategories } from "@/lib/api/category";
 import Image from "next/image";
-import { fetchJSON } from "@/lib/api/edge-compatible-api";
-import { Item } from "@/lib/api/types/itemTypes/item";
-import { Category } from "@/lib/api/types/itemTypes/category";
 
 async function EditProductPage({
   params,
@@ -19,12 +18,7 @@ async function EditProductPage({
   params: Promise<{ id: string }>;
 }) {
   const { id } = await params;
-
-  const product = await fetchJSON<{ data: Item }>(
-    `${process.env.NEXT_PUBLIC_API_URL}/items/${id}`
-  );
-
-  // const product = await getItem(id);
+  const product = await getItem(id);
   const {
     name,
     description,
@@ -36,12 +30,7 @@ async function EditProductPage({
     hsnOrSacCode,
   } = product.data;
 
-  const categoriesRes = await fetchJSON<{ data: Category[] }>(
-    `${process.env.NEXT_PUBLIC_API_URL}/categories`
-  );
-  const categories: Category[] = categoriesRes.data;
-
-  // const categories = (await getCategories()).data;
+  const categories = (await getCategories()).data;
 
   return (
     <section>
