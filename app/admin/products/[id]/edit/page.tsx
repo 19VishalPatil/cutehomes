@@ -1,3 +1,5 @@
+export const runtime = "edge"; // 👈 Required for Cloudflare Pages
+
 import { updateProductAction } from "@/utils/productActions";
 import FormContainer from "@/components/form/FormContainer";
 import FormInput from "@/components/form/FormInput";
