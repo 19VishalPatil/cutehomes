@@ -1,3 +1,5 @@
+export const runtime = "edge"; // 👈 Required for Cloudflare Pages
+
 import BreadCrumbs from "@/components/single-product/BreadCrumbs";
 import { formatCurrency } from "@/utils/format";
 import FavoriteToggleButton from "@/components/products/FavoriteToggleButton";
