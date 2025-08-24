@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import api from "./axios";
 import { request } from "./_request";
 import { Category } from "./types/itemTypes/category";
