@@ -13,6 +13,7 @@ export async function request<T>(
       error.response?.data?.error ||
       error.message ||
       "Something went wrong";
+    console.log(error);
     throw new Error(message);
   }
 }
