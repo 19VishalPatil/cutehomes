@@ -16,6 +16,8 @@ import { IconButton } from "@/components/form/Buttons";
 import { deleteProductAction } from "@/utils/productActions";
 import FormContainer from "@/components/form/FormContainer";
 
+export const revalidate = 0;
+
 async function ItemsPage() {
   const items = (await getItems()).data;
   if (items.length === 0) return <EmptyList />;

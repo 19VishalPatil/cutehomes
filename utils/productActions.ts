@@ -57,7 +57,8 @@ export const createProductAction = async (
     await api.post("/items", apiFormData, {
       headers: { "Content-Type": "multipart/form-data" },
     });
-
+    revalidatePath("/admin/products");
+    revalidatePath("/products");
     return { message: "Product created successfully" };
   } catch (err: any) {
     console.error("Error creating product:", err?.response || err.message);
@@ -119,6 +120,7 @@ export const updateProductAction = async (
     });
 
     revalidatePath(`admin/products/${productId}/edit`);
+    revalidatePath("/products");
 
     return { message: "Product updated successfully" };
   } catch (err: any) {
@@ -131,6 +133,7 @@ export const deleteProductAction = async (id: number) => {
   try {
     await deleteItem(id);
     revalidatePath("/admin/products");
+    revalidatePath("/products");
     return { message: "Product deleted successfully!" };
   } catch (err: any) {
     console.error(err);

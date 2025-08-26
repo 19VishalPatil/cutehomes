@@ -7,6 +7,8 @@ import { getItem } from "@/lib/api/items";
 import Container from "@/components/global/Container";
 import SingleProductCarousel from "@/components/single-product/SingleProductCarousel";
 
+export const revalidate = 0;
+
 async function SingleProductPage({
   params,
 }: {

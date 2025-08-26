@@ -5,6 +5,8 @@ import HeroCarousel from "@/components/home/HeroCarousel";
 import NewArrivals from "@/components/home/NewArrivals";
 import { Suspense } from "react";
 
+export const revalidate = 0;
+
 export default function HomePage() {
   return (
     <>

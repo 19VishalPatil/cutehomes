@@ -10,6 +10,8 @@ import MediaInput from "@/components/form/MediaInput";
 import { getCategories } from "@/lib/api/category";
 import Image from "next/image";
 
+export const revalidate = 0;
+
 async function EditProductPage({
   params,
 }: {

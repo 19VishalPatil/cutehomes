@@ -8,11 +8,9 @@ import MediaInput from "@/components/form/MediaInput";
 import PriceInput from "@/components/form/PriceInput";
 import TextAreaInput from "@/components/form/TextAreaInput";
 
-import { faker } from "@faker-js/faker";
+export const revalidate = 0;
 
 export default async function CreateProductPage() {
-  const name = faker.commerce.productName();
-  const description = faker.lorem.paragraph({ min: 10, max: 12 });
   const categories = (await getCategories()).data;
 
   return (
@@ -22,35 +20,16 @@ export default async function CreateProductPage() {
         <FormContainer action={createProductAction}>
           <div className="grid gap-4 md:grid-cols-2 my-4">
             <MediaInput />
-            <FormInput
-              type="text"
-              name="name"
-              label="product name"
-              defaultValue={name}
-            />
+            <FormInput type="text" name="name" label="product name" required />
 
             <CategoryMultiSelectInput categories={categories} />
 
             <PriceInput name="buyingPrice" />
             <PriceInput name="sellingPrice" />
-            <FormInput
-              type="text"
-              name="hsnOrSacCode"
-              label="HSN/SAC"
-              defaultValue={`${name}12312sdas234sd`}
-            />
-            <FormInput
-              type="text"
-              name="barcode"
-              label="barcode"
-              defaultValue={`${name}nsdjkna21131221`}
-            />
+            <FormInput type="text" name="hsnOrSacCode" label="HSN/SAC" />
+            <FormInput type="text" name="barcode" label="barcode" />
           </div>
-          <TextAreaInput
-            name="description"
-            labelText="product description"
-            defaultValue={description}
-          />
+          <TextAreaInput name="description" labelText="product description" />
           {/* <div className="mt-6">
             <CheckboxInput name="featured" label="featured" />
           </div> */}
