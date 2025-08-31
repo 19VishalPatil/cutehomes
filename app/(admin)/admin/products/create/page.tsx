@@ -7,6 +7,7 @@ import FormInput from "@/components/form/FormInput";
 import MediaInput from "@/components/form/MediaInput";
 import PriceInput from "@/components/form/PriceInput";
 import TextAreaInput from "@/components/form/TextAreaInput";
+import { Label } from "@/components/ui/label";
 
 export const revalidate = 0;
 
@@ -22,7 +23,10 @@ export default async function CreateProductPage() {
             <MediaInput />
             <FormInput type="text" name="name" label="product name" required />
 
-            <CategoryMultiSelectInput categories={categories} />
+            <div className="grid gap-3">
+              <Label className="capitalize">Categories</Label>
+              <CategoryMultiSelectInput categories={categories} />
+            </div>
 
             <PriceInput name="buyingPrice" />
             <PriceInput name="sellingPrice" />

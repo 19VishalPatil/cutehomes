@@ -3,7 +3,7 @@ import { formatCurrency } from "@/utils/format";
 import FavoriteToggleButton from "@/components/products/FavoriteToggleButton";
 import AddToCart from "@/components/single-product/AddToCart";
 import ProductRating from "@/components/single-product/ProductRating";
-import { getItem } from "@/lib/api/items";
+import { getItemBySlug } from "@/lib/api/items";
 import Container from "@/components/global/Container";
 import SingleProductCarousel from "@/components/single-product/SingleProductCarousel";
 
@@ -12,13 +12,13 @@ export const revalidate = 0;
 async function SingleProductPage({
   params,
 }: {
-  params: Promise<{ id: string }>;
+  params: Promise<{ slug: string }>;
 }) {
-  const { id } = await params;
+  const { slug } = await params;
 
-  const product = await getItem(id);
+  const product = await getItemBySlug(slug);
 
-  const { name, media, description, sellingPrice } = product.data;
+  const { id, name, media, description, sellingPrice } = product.data;
 
   const dollarsAmount = formatCurrency(sellingPrice);
   return (

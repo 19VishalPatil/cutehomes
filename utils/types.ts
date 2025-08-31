@@ -21,3 +21,15 @@ export type CartState = {
   tax: number;
   orderTotal: number;
 };
+
+export type FormState =
+  | {
+      error?: {
+        firstName?: string[];
+        lastName?: string[];
+        email?: string[];
+        password?: string[];
+      };
+      message?: string;
+    }
+  | undefined;

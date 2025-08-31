@@ -4,7 +4,7 @@ import { FaHeart } from "react-icons/fa";
 export default function FavoriteToggleButton({
   productId,
 }: {
-  productId: string;
+  productId: number;
 }) {
   return (
     <Button size="icon" variant="outline" className="p-2 cursor-pointer">

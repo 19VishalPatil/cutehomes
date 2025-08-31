@@ -63,10 +63,6 @@ export const links: NavItem[] = [
       },
     ],
   },
-  {
-    title: "Dashboard",
-    url: "/admin/sales",
-  },
 ];
 
 export const adminLinks: AdminLinks[] = [

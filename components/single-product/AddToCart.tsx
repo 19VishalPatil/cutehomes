@@ -1,6 +1,6 @@
 import { Button } from "../ui/button";
 
-export default function AddToCart({ productId }: { productId: string }) {
+export default function AddToCart({ productId }: { productId: number }) {
   return (
     <Button
       className="capitalize mt-8 cursor-pointer"

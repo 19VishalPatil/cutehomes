@@ -5,11 +5,15 @@ import api from "@/lib/api/axios";
 import { productSchema, updateProductSchema } from "./schemas/productSchema";
 import { deleteItem } from "@/lib/api/items";
 import { revalidatePath } from "next/cache";
+import { cookies } from "next/headers";
 
 export const createProductAction = async (
   prevState: any,
   formData: FormData
 ): Promise<{ message: string; data?: any }> => {
+  const cookieStore = await cookies();
+  const accessToken = cookieStore.get("access_token")?.value;
+
   try {
     // Convert FormData to an object
     const dataObj: Record<string, any> = {
@@ -55,7 +59,10 @@ export const createProductAction = async (
 
     // Send to API
     await api.post("/items", apiFormData, {
-      headers: { "Content-Type": "multipart/form-data" },
+      headers: {
+        "Content-Type": "multipart/form-data",
+        Authorization: `Bearer ${accessToken}`,
+      },
     });
     revalidatePath("/admin/products");
     revalidatePath("/products");
@@ -70,6 +77,8 @@ export const updateProductAction = async (
   prevState: any,
   formData: FormData
 ): Promise<{ message: string; data?: any }> => {
+  const cookieStore = await cookies();
+  const accessToken = cookieStore.get("access_token")?.value;
   try {
     const productId = formData.get("id") as string;
 
@@ -116,7 +125,10 @@ export const updateProductAction = async (
     });
 
     await api.patch(`/items/${productId}`, apiFormData, {
-      headers: { "Content-Type": "multipart/form-data" },
+      headers: {
+        "Content-Type": "multipart/form-data",
+        Authorization: `Bearer ${accessToken}`,
+      },
     });
 
     revalidatePath(`admin/products/${productId}/edit`);
@@ -130,11 +142,24 @@ export const updateProductAction = async (
 };
 
 export const deleteProductAction = async (id: number) => {
+  const cookieStore = await cookies();
+  const accessToken = cookieStore.get("access_token")?.value;
+
   try {
-    await deleteItem(id);
-    revalidatePath("/admin/products");
-    revalidatePath("/products");
-    return { message: "Product deleted successfully!" };
+    const res = await api.delete(`/items/${id}`, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+        Authorization: `Bearer ${accessToken}`,
+      },
+    });
+
+    if (res.status === 204) {
+      revalidatePath("/admin/products");
+      revalidatePath("/products");
+      return { message: "Product deleted successfully!" };
+    } else {
+      return { message: "Failed to delete product" };
+    }
   } catch (err: any) {
     console.error(err);
     return { message: "Failed to delete product" };

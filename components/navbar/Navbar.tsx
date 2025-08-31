@@ -4,13 +4,13 @@ import { useState } from "react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { HiSearch } from "react-icons/hi";
-
 import { SidebarTrigger } from "@/components/ui/sidebar";
 import DarkMode from "./DarkMode";
 import CartButton from "./CartButton";
 import Logo from "./Logo";
 import { SearchBar } from "./SearchBar";
 import Container from "../global/Container";
+import LinksDropdown from "./LinksDropdown";
 
 const navigationLinks = [
   { href: "/cars", label: "CARS" },
@@ -62,6 +62,7 @@ export default function Navbar() {
 
             <DarkMode />
             <CartButton />
+            <LinksDropdown />
           </div>
         </div>
 

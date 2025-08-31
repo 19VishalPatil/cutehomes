@@ -33,7 +33,7 @@ export default function ProductsSlider({ items }: { items: Item[] }) {
         }}
       >
         {items.map((item) => {
-          const { id, name, media, sellingPrice } = item;
+          const { id, name, media, sellingPrice, slug } = item;
           const mediaImage = media.filter((m) => m.mime.startsWith("image/"))[0]
             ?.path;
 
@@ -42,6 +42,7 @@ export default function ProductsSlider({ items }: { items: Item[] }) {
               <SingleProduct
                 id={id}
                 name={name}
+                slug={slug}
                 mediaImage={mediaImage}
                 price={sellingPrice}
               />

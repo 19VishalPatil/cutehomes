@@ -15,7 +15,7 @@ function TextAreaInput({
   required = false,
 }: TextAreaInputProps) {
   return (
-    <div className="mb-2">
+    <div className="mb-2 grid gap-3">
       <Label htmlFor={name} className="capitalize">
         {labelText || name}
       </Label>

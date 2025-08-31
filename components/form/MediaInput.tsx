@@ -7,7 +7,7 @@ interface MediaInputProps {
 
 function MediaInput({ required = true }: MediaInputProps) {
   return (
-    <div className="mb-2">
+    <div className="mb-2 grid gap-3">
       <Label htmlFor="file" className="capitalize">
         Media File
       </Label>

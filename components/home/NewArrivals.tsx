@@ -7,7 +7,7 @@ import EmptyList from "../global/EmptyList";
 export default async function NewArrivals() {
   const products = await getItems();
 
-  if (products.length === 0) return <EmptyList />;
+  if (products.data.length === 0) return <EmptyList />;
 
   //temp
   const items = products.data.slice(0, 5);

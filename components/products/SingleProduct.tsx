@@ -6,17 +6,19 @@ import FavoriteToggleButton from "./FavoriteToggleButton";
 export default function SingleProduct({
   id,
   name,
+  slug,
   mediaImage,
   price,
 }: {
   id: number;
   name: string;
+  slug: string;
   mediaImage: string;
   price: number;
 }) {
   return (
     <article className="group relative">
-      <Link href={`/products/${id}`}>
+      <Link href={`/products/${slug || id}`}>
         <Card className="transform group-hover:shadow-xl transition-shadow duration-500">
           <CardContent className="p-4">
             <div className="relative h-64 md:h-48 rounded overflow-hidden">
@@ -39,7 +41,7 @@ export default function SingleProduct({
         </Card>
       </Link>
       <div className="absolute top-3 right-3 z-5">
-        <FavoriteToggleButton productId="1" />
+        <FavoriteToggleButton productId={1} />
       </div>
     </article>
   );
