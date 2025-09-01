@@ -1,14 +1,18 @@
 "use server";
 
-import { LoginFormSchema, RegisterFormSchema } from "./schemas/authSchema";
+import { cookies } from "next/headers";
+import { RegisterFormSchema } from "./schemas/authSchema";
 import { FormState } from "./types";
-import { loginUser, registerCustomer } from "@/lib/api/auth";
+import { registerCustomer } from "@/lib/api/auth";
 import { redirect } from "next/navigation";
 
 export const registerCustomerAction = async (
   prevState: FormState,
   formData: FormData
 ): Promise<FormState> => {
+  const cookieStore = await cookies();
+  const accessToken = cookieStore.get("access_token")?.value;
+
   const validation = RegisterFormSchema.safeParse({
     firstName: formData.get("firstName"),
     lastName: formData.get("lastName"),
@@ -31,7 +35,9 @@ export const registerCustomerAction = async (
     };
   }
 
-  const response = await registerCustomer(validation.data);
+  const response = await registerCustomer(validation.data, {
+    Authorization: `Bearer ${accessToken}`,
+  });
 
   if (!response.success) {
     return {

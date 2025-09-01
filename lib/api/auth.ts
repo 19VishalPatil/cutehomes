@@ -2,11 +2,19 @@ import { request } from "./_request";
 import api from "./axios";
 import { Customer } from "./types/customerTypes/customerTypes";
 
-export const registerCustomer = async (data: Customer) => {
+export const registerCustomer = async (
+  data: Customer,
+  headers?: Record<string, string>
+) => {
   const res = await request<{ data: Customer }>(
-    api.post("/auth/customer/register", data),
+    api.post("/auth/customer/register", data, {
+      headers: {
+        ...headers,
+      },
+    }),
     { data: {} as Customer }
   );
+
   return {
     ...res,
     data: res.data.data,

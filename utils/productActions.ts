@@ -148,7 +148,6 @@ export const deleteProductAction = async (id: number) => {
   try {
     const res = await api.delete(`/items/${id}`, {
       headers: {
-        "Content-Type": "multipart/form-data",
         Authorization: `Bearer ${accessToken}`,
       },
     });
