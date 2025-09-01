@@ -36,6 +36,5 @@ export const logoutUser = async () => {
     data: null,
   });
 
-  console.log("Logout response:", res);
   return res.data.data;
 };

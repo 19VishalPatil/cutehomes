@@ -22,6 +22,8 @@ function LoginContent() {
   const { user, loading } = useAuth();
   const router = useRouter();
 
+  console.log(user);
+
   useEffect(() => {
     if (!loading && user) {
       router.replace("/"); // Already logged in
