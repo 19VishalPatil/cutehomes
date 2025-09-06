@@ -2,10 +2,11 @@ import { Label } from "../ui/label";
 import { Input } from "../ui/input";
 
 interface MediaInputProps {
-  required?: boolean; // optional now
+  required?: boolean;
+  error?: string[];
 }
 
-function MediaInput({ required = true }: MediaInputProps) {
+function MediaInput({ required = true, error }: MediaInputProps) {
   return (
     <div className="mb-2 grid gap-3">
       <Label htmlFor="file" className="capitalize">
@@ -19,6 +20,7 @@ function MediaInput({ required = true }: MediaInputProps) {
         multiple
         required={required}
       />
+      {error && <p className="text-sm text-red-400">{error.join(", ")}</p>}
     </div>
   );
 }

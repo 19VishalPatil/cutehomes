@@ -3,9 +3,9 @@ import { formatCurrency } from "@/utils/format";
 import FavoriteToggleButton from "@/components/products/FavoriteToggleButton";
 import AddToCart from "@/components/single-product/AddToCart";
 import ProductRating from "@/components/single-product/ProductRating";
-import { getItemBySlug } from "@/lib/api/items";
 import Container from "@/components/global/Container";
 import SingleProductCarousel from "@/components/single-product/SingleProductCarousel";
+import { itemService } from "@/lib/api/items";
 
 export const revalidate = 0;
 
@@ -16,7 +16,7 @@ async function SingleProductPage({
 }) {
   const { slug } = await params;
 
-  const product = await getItemBySlug(slug);
+  const product = await itemService.getBySlug(slug);
 
   const { id, name, media, description, sellingPrice } = product.data;
 

@@ -9,6 +9,7 @@ import { Input } from "../ui/input";
 import { Label } from "../ui/label";
 import { useState } from "react";
 import { toast } from "sonner";
+import { authService } from "@/lib/api/auth";
 
 interface LoginFormProps {
   className?: string;
@@ -33,24 +34,20 @@ export default function LoginForm({ className, callbackUrl }: LoginFormProps) {
     setErrors({});
 
     try {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/auth/login`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        credentials: "include",
-        body: JSON.stringify(formData),
-      });
+      const res = await authService.login(formData);
 
-      const data = await res.json();
-
-      if (!res.ok) {
-        setErrors(data.error || {});
-        toast.error(data.message || "Login failed");
-      } else {
-        toast.success(data.message || "Login successful");
-        // redirect
+      if (res.success) {
+        toast.success("Login successful");
+        // Redirect after login
         window.location.href = callbackUrl || "/";
+      } else {
+        if (res.errors) {
+          setErrors(res.errors as typeof errors);
+        }
+        toast.error(res.error || "Login failed");
       }
-    } catch {
+    } catch (err) {
+      console.error("Unexpected login error:", err);
       toast.error("Something went wrong");
     } finally {
       setLoading(false);

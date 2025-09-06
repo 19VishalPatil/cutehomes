@@ -15,7 +15,4 @@ export const productSchema = z.object({
 
 export const updateProductSchema = productSchema.extend({
   files: z.array(z.instanceof(File)).optional(),
-  description: z.string().optional(),
-  hsnOrSacCode: z.string().optional(),
-  barcode: z.string().optional(),
 });

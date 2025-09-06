@@ -2,16 +2,15 @@ import SectionTitle from "@/components/global/SectionTitle";
 import ProductsSlider from "@/components/products/ProductSlider";
 import ViewAll from "@/components/global/ViewAll";
 import EmptyList from "../global/EmptyList";
-
-import { getItems } from "@/lib/api/items";
+import { itemService } from "@/lib/api/items";
 
 export default async function FeaturedProducts() {
-  const products = await getItems();
+  const products = (await itemService.getAll()).data;
 
-  if (products.data.length === 0) return <EmptyList />;
+  if (products.length === 0) return <EmptyList />;
 
   //temp
-  const featuredProducts = products.data.slice(0, 5);
+  const featuredProducts = products.slice(0, 5);
 
   return (
     <section className="pt-20">

@@ -1,10 +1,9 @@
+import { itemService } from "@/lib/api/items";
 import { Separator } from "../ui/separator";
 import ProductsGrid from "./ProductsGrid";
 
-import { getItems } from "@/lib/api/items";
-
 export default async function ProductsContainer() {
-  const products = await getItems();
+  const products = await itemService.getAll();
   const totalProducts: number = products.data.length;
 
   return (

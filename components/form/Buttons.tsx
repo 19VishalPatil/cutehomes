@@ -53,8 +53,8 @@ export function SubmitButton({
   );
 }
 
-type actionType = "edit" | "delete";
-export const IconButton = ({ actionType }: { actionType: actionType }) => {
+type ActionType = "edit" | "delete";
+export const IconButton = ({ actionType }: { actionType: ActionType }) => {
   const { pending } = useFormStatus();
 
   const renderIcon = () => {

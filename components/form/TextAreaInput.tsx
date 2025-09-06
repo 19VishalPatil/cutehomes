@@ -6,6 +6,7 @@ type TextAreaInputProps = {
   labelText?: string;
   defaultValue?: string;
   required?: boolean;
+  error?: string[];
 };
 
 function TextAreaInput({
@@ -13,6 +14,7 @@ function TextAreaInput({
   labelText,
   defaultValue,
   required = false,
+  error,
 }: TextAreaInputProps) {
   return (
     <div className="mb-2 grid gap-3">
@@ -25,8 +27,13 @@ function TextAreaInput({
         defaultValue={defaultValue}
         rows={5}
         required={required}
-        className="leading-loose"
+        className={
+          error
+            ? "border-red-500 focus:border-red-500 leading-loose"
+            : "leading-loose"
+        }
       />
+      {error && <p className="text-sm text-red-400">{error.join(", ")}</p>}
     </div>
   );
 }

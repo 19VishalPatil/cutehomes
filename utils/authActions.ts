@@ -1,18 +1,16 @@
 "use server";
 
 import { cookies } from "next/headers";
+import { redirect } from "next/navigation";
 import { RegisterFormSchema } from "./schemas/authSchema";
 import { FormState } from "./types";
-import { registerCustomer } from "@/lib/api/auth";
-import { redirect } from "next/navigation";
+import { authService } from "@/lib/api/auth";
 
 export const registerCustomerAction = async (
   prevState: FormState,
   formData: FormData
 ): Promise<FormState> => {
-  const cookieStore = await cookies();
-  const accessToken = cookieStore.get("access_token")?.value;
-
+  // 1. Validate with Zod
   const validation = RegisterFormSchema.safeParse({
     firstName: formData.get("firstName"),
     lastName: formData.get("lastName"),
@@ -21,66 +19,40 @@ export const registerCustomerAction = async (
   });
 
   if (!validation.success) {
-    const errors: Record<string, string[]> = {};
-
-    // Loop through issues
+    const fieldErrors: Record<string, string[]> = {};
     validation.error.issues.forEach((issue) => {
       const field = issue.path[0] as string;
-      if (!errors[field]) errors[field] = [];
-      errors[field].push(issue.message);
+      if (!fieldErrors[field]) fieldErrors[field] = [];
+      fieldErrors[field].push(issue.message);
     });
 
-    return {
-      error: errors,
-    };
+    // return field-level errors
+    return { error: fieldErrors };
   }
 
-  const response = await registerCustomer(validation.data, {
-    Authorization: `Bearer ${accessToken}`,
+  // 2. Get token if available
+  const cookieStore = await cookies();
+  const accessToken = cookieStore.get("access_token")?.value;
+
+  // 3. Call API
+  const response = await authService.registerCustomer(validation.data, {
+    ...(accessToken ? { Authorization: `Bearer ${accessToken}` } : {}),
   });
 
   if (!response.success) {
-    return {
-      message: response.error ?? "Registration failed. Please try again.",
-    };
+    //  If API sends field-level errors
+    if (response.errors && typeof response.errors === "object") {
+      const fieldErrors: Record<string, string[]> = {};
+      Object.entries(response.errors).forEach(([field, message]) => {
+        fieldErrors[field] = Array.isArray(message) ? message : [message];
+      });
+      return { error: fieldErrors };
+    }
+
+    //  Global error (fallback)
+    return { error: response.error ?? "Registration failed." };
   }
 
+  // 4. Redirect on success
   redirect("/auth/login?message=registered");
 };
-
-// export const loginAction = async (
-//   state: FormState,
-//   formData: FormData
-// ): Promise<FormState> => {
-//   const validation = LoginFormSchema.safeParse({
-//     email: formData.get("email"),
-//     password: formData.get("password"),
-//   });
-
-//   if (!validation.success) {
-//     const errors: Record<string, string[]> = {};
-
-//     // Loop through issues
-//     validation.error.issues.forEach((issue) => {
-//       const field = issue.path[0] as string;
-//       if (!errors[field]) errors[field] = [];
-//       errors[field].push(issue.message);
-//     });
-
-//     return {
-//       error: errors,
-//     };
-//   }
-
-//   const response = await loginUser(validation.data);
-
-//   if (!response.success) {
-//     return {
-//       message: response.error ?? "Login failed. Please try again.",
-//     };
-//   }
-
-//   const result = response.data;
-
-//   console.log(result);
-// };

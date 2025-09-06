@@ -1,40 +1,20 @@
-import { request } from "./_request";
 import api from "./axios";
-import { Customer } from "./types/customerTypes/customerTypes";
+import { ApiResponse, request } from "./_request";
+import { User } from "./types/customerTypes/customerTypes";
 
-export const registerCustomer = async (
-  data: Customer,
-  headers?: Record<string, string>
-) => {
-  const res = await request<{ data: Customer }>(
-    api.post("/auth/customer/register", data, {
-      headers: {
-        ...headers,
-      },
-    }),
-    { data: {} as Customer }
-  );
+export const authService = {
+  registerCustomer: async (
+    data: User,
+    headers?: Record<string, string>
+  ): Promise<ApiResponse<User>> =>
+    request(api.post("/auth/customer/register", data, { headers }), {} as User),
 
-  return {
-    ...res,
-    data: res.data.data,
-  };
-};
+  login: async (credentials: {
+    email: string;
+    password: string;
+  }): Promise<ApiResponse<User>> =>
+    request(api.post("/auth/login", credentials), {} as User),
 
-export const loginUser = async (data: { email: string; password: string }) => {
-  const res = await request<{ data: Customer }>(api.post("/auth/login", data), {
-    data: {} as Customer,
-  });
-  return {
-    ...res,
-    data: res.data.data,
-  };
-};
-
-export const logoutUser = async () => {
-  const res = await request<{ data: null }>(api.post("/auth/logout"), {
-    data: null,
-  });
-
-  return res.data.data;
+  logout: async (): Promise<ApiResponse<null>> =>
+    request(api.post("/auth/logout"), null),
 };

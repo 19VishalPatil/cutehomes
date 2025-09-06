@@ -1,35 +1,9 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-export type actionFunction = (
-  prevState: any,
+export type ActionFunction<T extends FormState = FormState> = (
+  prevState: T,
   formData: FormData
-) => Promise<{ message: string }>;
+) => Promise<T>;
 
-export type CartItem = {
-  productId: string;
-  image: string;
-  title: string;
-  price: string;
-  amount: number;
-  company: string;
-};
-
-export type CartState = {
-  cartItems: CartItem[];
-  numItemsInCart: number;
-  cartTotal: number;
-  shipping: number;
-  tax: number;
-  orderTotal: number;
-};
-
-export type FormState =
-  | {
-      error?: {
-        firstName?: string[];
-        lastName?: string[];
-        email?: string[];
-        password?: string[];
-      };
-      message?: string;
-    }
-  | undefined;
+export interface FormState {
+  message?: string;
+  error?: string | Record<string, string[]>;
+}

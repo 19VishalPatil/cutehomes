@@ -1,56 +1,55 @@
 import api from "./axios";
-import { request } from "./_request";
+import { ApiResponse, request } from "./_request";
 import { Item } from "./types/itemTypes/item";
 
-export const getItems = async () => {
-  const res = await request<{ data: Item[] }>(api.get("/items"), { data: [] });
-  return {
-    ...res,
-    data: res.data.data,
-  };
-};
+export const itemService = {
+  getAll: async (): Promise<ApiResponse<Item[]>> =>
+    request(api.get("/items"), []),
 
-export const getItem = async (id: string) => {
-  const res = await request<{ data: Item }>(api.get(`/items/${id}`), {
-    data: {} as Item,
-  });
-  return {
-    ...res,
-    data: res.data.data,
-  };
-};
+  getOne: async (id: string): Promise<ApiResponse<Item>> =>
+    request(api.get(`/items/${id}`), {} as Item),
 
-export const getItemBySlug = async (slug: string) => {
-  const res = await request<{ data: Item }>(api.get(`/items/slug/${slug}`), {
-    data: {} as Item,
-  });
-  return {
-    ...res,
-    data: res.data.data,
-  };
-};
+  getBySlug: async (slug: string): Promise<ApiResponse<Item>> =>
+    request(api.get(`/items/slug/${slug}`), {} as Item),
 
-export const createItem = async (data: Partial<Item>) => {
-  const res = await request<{ data: Item }>(api.post("/items", data), {
-    data: {} as Item,
-  });
-  return {
-    ...res,
-    data: res.data.data,
-  };
-};
+  create: async (
+    data: Partial<Item> | FormData,
+    headers?: Record<string, string>
+  ): Promise<ApiResponse<Item>> =>
+    request(
+      api.post("/items", data, {
+        headers: {
+          "Content-Type":
+            data instanceof FormData
+              ? "multipart/form-data"
+              : "application/json",
+          ...headers,
+        },
+      }),
+      {} as Item
+    ),
 
-export const updateItem = async (id: string, data: Partial<Item>) => {
-  const res = await request<{ data: Item }>(api.patch(`/items/${id}`, data), {
-    data: {} as Item,
-  });
-  return {
-    ...res,
-    data: res.data.data,
-  };
-};
+  update: async (
+    id: string,
+    data: Partial<Item> | FormData,
+    headers?: Record<string, string>
+  ): Promise<ApiResponse<Item>> =>
+    request(
+      api.patch(`/items/${id}`, data, {
+        headers: {
+          "Content-Type":
+            data instanceof FormData
+              ? "multipart/form-data"
+              : "application/json",
+          ...headers,
+        },
+      }),
+      {} as Item
+    ),
 
-export const deleteItem = async (id: number) => {
-  const res = await request<void>(api.delete(`/items/${id}`), undefined);
-  return res;
+  delete: async (
+    id: number,
+    headers?: Record<string, string>
+  ): Promise<ApiResponse<null>> =>
+    request(api.delete(`/items/${id}`, { headers }), null),
 };

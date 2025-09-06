@@ -1,10 +1,9 @@
 "use client";
-
-import { logoutUser } from "@/lib/api/auth";
 import { toast } from "sonner";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/app/_context/AuthContext";
+import { authService } from "@/lib/api/auth";
 
 export default function SignOutLink() {
   const { resetUser } = useAuth();
@@ -13,19 +12,21 @@ export default function SignOutLink() {
 
   const handleSignOut = async () => {
     setLoading(true);
+
     try {
-      await logoutUser();
-      resetUser();
-      toast.success("Logged out successfully");
-      router.push("/");
-    } catch (error: unknown) {
-      if (error instanceof Error) {
-        console.error("Error during logout:", error);
-        toast.error(error.message);
+      const res = await authService.logout();
+
+      if (res.success) {
+        resetUser(); // clear user from context
+        toast.success("Logged out successfully");
+        router.push("/"); // redirect to home
       } else {
-        console.error("Error during logout:", error);
-        toast.error("Failed to logout");
+        console.error("Logout failed:", res.error);
+        toast.error(res.error || "Failed to logout");
       }
+    } catch (error) {
+      console.error("Unexpected logout error:", error);
+      toast.error("Failed to logout");
     } finally {
       setLoading(false);
     }
