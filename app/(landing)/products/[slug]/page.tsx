@@ -1,11 +1,12 @@
 import BreadCrumbs from "@/components/single-product/BreadCrumbs";
 import { formatCurrency } from "@/utils/format";
-import FavoriteToggleButton from "@/components/products/FavoriteToggleButton";
 import AddToCart from "@/components/single-product/AddToCart";
 import ProductRating from "@/components/single-product/ProductRating";
 import Container from "@/components/global/Container";
 import SingleProductCarousel from "@/components/single-product/SingleProductCarousel";
 import { itemService } from "@/lib/api/items";
+import { getSession } from "@/lib/session";
+import WishlistToggleForm from "@/components/products/WishlistToggleForm";
 
 export const revalidate = 0;
 
@@ -14,11 +15,17 @@ async function SingleProductPage({
 }: {
   params: Promise<{ slug: string }>;
 }) {
+  // get access token
+  const accessToken = await getSession();
+
   const { slug } = await params;
 
-  const product = await itemService.getBySlug(slug);
+  const product = await itemService.getBySlug(slug, {
+    ...(accessToken ? { Authorization: `Bearer ${accessToken}` } : {}),
+  });
 
-  const { id, name, media, description, sellingPrice } = product.data;
+  const { id, name, media, description, sellingPrice, isWishlisted } =
+    product.data;
 
   const dollarsAmount = formatCurrency(sellingPrice);
   return (
@@ -34,7 +41,7 @@ async function SingleProductPage({
           <div>
             <div className="flex gap-x-8 items-center">
               <h1 className="capitalize text-3xl font-bold">{name}</h1>
-              <FavoriteToggleButton productId={id} />
+              <WishlistToggleForm productId={id} isWishlisted={isWishlisted} />
             </div>
             <ProductRating productId={id} />
 

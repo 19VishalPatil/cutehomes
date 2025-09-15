@@ -1,16 +1,39 @@
 import api from "./axios";
 import { ApiResponse, request } from "./_request";
 import { Item } from "./types/itemTypes/item";
+import {
+  defaultPaginatedResponse,
+  PaginatedResponse,
+} from "./types/itemTypes/PaginatedResponse";
 
 export const itemService = {
-  getAll: async (): Promise<ApiResponse<Item[]>> =>
-    request(api.get("/items"), []),
+  getAll: async (
+    headers?: Record<string, string>
+  ): Promise<ApiResponse<PaginatedResponse<Item>>> =>
+    request(
+      api.get("/items", {
+        headers: {
+          ...headers,
+        },
+      }),
+      defaultPaginatedResponse
+    ),
 
   getOne: async (id: string): Promise<ApiResponse<Item>> =>
     request(api.get(`/items/${id}`), {} as Item),
 
-  getBySlug: async (slug: string): Promise<ApiResponse<Item>> =>
-    request(api.get(`/items/slug/${slug}`), {} as Item),
+  getBySlug: async (
+    slug: string,
+    headers?: Record<string, string>
+  ): Promise<ApiResponse<Item>> =>
+    request(
+      api.get(`/items/slug/${slug}`, {
+        headers: {
+          ...headers,
+        },
+      }),
+      {} as Item
+    ),
 
   create: async (
     data: Partial<Item> | FormData,

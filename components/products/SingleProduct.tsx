@@ -1,7 +1,8 @@
 import Link from "next/link";
 import { Card, CardContent } from "@/components/ui/card";
 import Image from "next/image";
-import FavoriteToggleButton from "./FavoriteToggleButton";
+import WishlistToggleForm from "./WishlistToggleForm";
+import WishlistWrapper from "./WishlistWrapper";
 
 export default function SingleProduct({
   id,
@@ -9,12 +10,14 @@ export default function SingleProduct({
   slug,
   mediaImage,
   price,
+  isWishlisted,
 }: {
   id: number;
   name: string;
   slug: string;
   mediaImage: string;
   price: number;
+  isWishlisted: boolean;
 }) {
   return (
     <article className="group relative">
@@ -41,7 +44,8 @@ export default function SingleProduct({
         </Card>
       </Link>
       <div className="absolute top-3 right-3 z-5">
-        <FavoriteToggleButton productId={1} />
+        {/* <WishlistToggleForm productId={id} isWishlisted={isWishlisted} /> */}
+        <WishlistWrapper productId={id} isWishlisted={isWishlisted} />
       </div>
     </article>
   );

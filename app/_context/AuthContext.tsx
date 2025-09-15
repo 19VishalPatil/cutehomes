@@ -7,12 +7,14 @@ type User = { id: string; email: string; role: "customer" | "admin" };
 type AuthContextType = {
   user: User | null;
   loading: boolean;
+  isSessionActive: boolean;
   resetUser: () => void;
 };
 
 const AuthContext = createContext<AuthContextType>({
   user: null,
   loading: true,
+  isSessionActive: false,
   resetUser: () => {},
 });
 
@@ -49,7 +51,9 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   }, []);
 
   return (
-    <AuthContext.Provider value={{ user, loading, resetUser }}>
+    <AuthContext.Provider
+      value={{ user, loading, resetUser, isSessionActive: !!user }}
+    >
       {children}
     </AuthContext.Provider>
   );

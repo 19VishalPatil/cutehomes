@@ -7,9 +7,9 @@ export const revalidate = 0;
 async function ItemsPage() {
   const res = await itemService.getAll();
 
-  if (!res.success || res.data.length === 0) return <EmptyList />;
+  if (!res.success || res.data.items.length === 0) return <EmptyList />;
 
-  const items = res.data;
+  const items = res.data.items;
 
   return <ProductDataTable items={items} />;
 }

@@ -5,6 +5,7 @@ import { FormState } from "@/utils/types";
 import { itemService } from "@/lib/api/items";
 import { productSchema, updateProductSchema } from "./schemas/productSchema";
 import { getSession } from "@/lib/session";
+import { wishlistService } from "@/lib/api/wishlist";
 
 // ---------------------- Create Product ----------------------
 export const createProductAction = async (
@@ -187,4 +188,44 @@ export const deleteProductAction = async (
   revalidatePath("/products");
 
   return { message: "Product deleted successfully" };
+};
+
+// ---------------------- Add to wishlist ----------------------
+export const toggleWishlistAction = async (
+  _prevState: FormState,
+  formData: FormData
+) => {
+  const id = formData.get("id");
+  const isWishlistedStr = formData.get("isWishlisted");
+
+  if (!id || isWishlistedStr === null) {
+    return { error: "Required data missing" };
+  }
+
+  const isWishlisted = isWishlistedStr === "true";
+
+  // get access token
+  const accessToken = await getSession();
+
+  let response;
+  if (!isWishlisted) {
+    response = await wishlistService.add(id.toString(), {
+      ...(accessToken ? { Authorization: `Bearer ${accessToken}` } : {}),
+    });
+  } else {
+    response = await wishlistService.remove(id.toString(), {
+      ...(accessToken ? { Authorization: `Bearer ${accessToken}` } : {}),
+    });
+  }
+
+  if (!response.success) {
+    return { error: response.error || "Failed to toggle wishlist" };
+  }
+
+  // Revalidate paths
+  revalidatePath("/products");
+
+  return {
+    message: isWishlisted ? "Removed from wishlist" : "Added to wishlist",
+  };
 };

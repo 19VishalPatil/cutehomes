@@ -2,11 +2,9 @@ import SectionTitle from "../global/SectionTitle";
 import ViewAll from "../global/ViewAll";
 import ProductsGrid from "../products/ProductsGrid";
 import EmptyList from "../global/EmptyList";
-import { itemService } from "@/lib/api/items";
+import { Item } from "@/lib/api/types/itemTypes/item";
 
-export default async function NewArrivals() {
-  const products = (await itemService.getAll()).data;
-
+export default async function NewArrivals({ products }: { products: Item[] }) {
   if (products.length === 0) return <EmptyList />;
 
   //temp

@@ -1,8 +1,5 @@
 "use client";
 
-import { deleteProductAction } from "@/utils/productActions";
-import FormContainer from "../form/FormContainer";
-import { SubmitButton } from "../form/Buttons";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -15,6 +12,9 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { LuTrash2 } from "react-icons/lu";
+import FormContainer from "../form/FormContainer";
+import { deleteProductAction } from "@/utils/productActions";
+import { SubmitButton } from "../form/Buttons";
 
 export default function DeleteProductForm({ itemId }: { itemId: number }) {
   return (
@@ -46,13 +46,13 @@ export default function DeleteProductForm({ itemId }: { itemId: number }) {
               </Button>
             </DialogClose>
             <FormContainer action={deleteProductAction}>
-              {(state) => (
+              {() => (
                 <>
                   <input type="hidden" name="id" value={itemId} />
                   <SubmitButton
-                    text="Confirm delete "
+                    text="Delete Item"
                     size="default"
-                    className="cursor-pointer"
+                    className="capitalize cursor-pointer"
                   />
                 </>
               )}

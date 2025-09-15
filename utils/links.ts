@@ -24,8 +24,8 @@ export const links: NavItem[] = [
     url: "/products",
   },
   {
-    title: "Favorites",
-    url: "/favorites",
+    title: "Wishlist",
+    url: "/wishlist",
   },
   {
     title: "Cart",

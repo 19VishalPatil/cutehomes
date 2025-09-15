@@ -2,14 +2,18 @@ import SectionTitle from "@/components/global/SectionTitle";
 import ProductsSlider from "@/components/products/ProductSlider";
 import ViewAll from "@/components/global/ViewAll";
 import EmptyList from "../global/EmptyList";
-import { itemService } from "@/lib/api/items";
 
-export default async function FeaturedProducts() {
-  const products = (await itemService.getAll()).data;
+import { Item } from "@/lib/api/types/itemTypes/item";
 
+export default async function FeaturedProducts({
+  products,
+}: {
+  products: Item[];
+}) {
   if (products.length === 0) return <EmptyList />;
 
   //temp
+
   const featuredProducts = products.slice(0, 5);
 
   return (

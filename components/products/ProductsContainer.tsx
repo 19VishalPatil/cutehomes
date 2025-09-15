@@ -1,10 +1,17 @@
 import { itemService } from "@/lib/api/items";
 import { Separator } from "../ui/separator";
 import ProductsGrid from "./ProductsGrid";
+import { getSession } from "@/lib/session";
 
 export default async function ProductsContainer() {
-  const products = await itemService.getAll();
-  const totalProducts: number = products.data.length;
+  // get access token
+  const accessToken = await getSession();
+
+  const result = await itemService.getAll({
+    ...(accessToken ? { Authorization: `Bearer ${accessToken}` } : {}),
+  });
+  const products = result.data.items;
+  const totalProducts: number = result.data.meta.totalItems;
 
   return (
     <>
@@ -24,7 +31,7 @@ export default async function ProductsContainer() {
             Sorry, no products matched your search...
           </h5>
         ) : (
-          <ProductsGrid items={products.data} />
+          <ProductsGrid items={products} />
         )}
       </div>
     </>
