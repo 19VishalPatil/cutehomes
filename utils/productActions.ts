@@ -6,6 +6,7 @@ import { itemService } from "@/lib/api/items";
 import { productSchema, updateProductSchema } from "./schemas/productSchema";
 import { getSession } from "@/lib/session";
 import { wishlistService } from "@/lib/api/wishlist";
+import { redirect } from "next/navigation";
 
 // ---------------------- Create Product ----------------------
 export const createProductAction = async (
@@ -64,6 +65,10 @@ export const createProductAction = async (
   const response = await itemService.create(apiFormData, {
     ...(accessToken ? { Authorization: `Bearer ${accessToken}` } : {}),
   });
+
+  if (response.status === 401) {
+    return redirect("/auth/login?message=login_required");
+  }
 
   if (!response.success) {
     if (response.errors && typeof response.errors === "object") {
@@ -147,6 +152,10 @@ export const updateProductAction = async (
     ...(accessToken ? { Authorization: `Bearer ${accessToken}` } : {}),
   });
 
+  if (response.status === 401) {
+    return redirect("/auth/login?message=login_required");
+  }
+
   if (!response.success) {
     if (response.errors && typeof response.errors === "object") {
       const fieldErrors: Record<string, string[]> = {};
@@ -179,6 +188,10 @@ export const deleteProductAction = async (
   const response = await itemService.delete(Number(productId), {
     ...(accessToken ? { Authorization: `Bearer ${accessToken}` } : {}),
   });
+
+  if (response.status === 401) {
+    return redirect("/auth/login?message=login_required");
+  }
 
   if (!response.success) {
     return { error: "Failed to delete product." };
@@ -216,6 +229,9 @@ export const toggleWishlistAction = async (
     response = await wishlistService.remove(id.toString(), {
       ...(accessToken ? { Authorization: `Bearer ${accessToken}` } : {}),
     });
+  }
+  if (response.status === 401) {
+    return redirect("/auth/login?message=login_required");
   }
 
   if (!response.success) {

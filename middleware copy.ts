@@ -5,15 +5,6 @@ const adminRoutes = ["/admin", "/admin/settings", "/admin/users"];
 const customerRoutes = ["/checkout", "/account", "/account/orders", "/orders"];
 
 export async function middleware(req: NextRequest) {
-  const isServerAction =
-    req.headers.get("RSC") === "1" ||
-    req.headers.get("Next-Action") !== null ||
-    req.headers.get("Content-Type")?.includes("multipart/form-data");
-
-  if (isServerAction) {
-    return NextResponse.next();
-  }
-
   const token = req.cookies.get("access_token")?.value;
   const url = req.nextUrl.pathname;
 

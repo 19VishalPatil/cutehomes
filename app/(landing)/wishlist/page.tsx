@@ -15,14 +15,20 @@ export default async function WishlistPage() {
   const favItems = result.data;
 
   if (favItems.length === 0)
-    return <SectionTitle text="You have no favorites yet." />;
+    return (
+      <Container className="pt-20">
+        <SectionTitle text="You have no favorites yet." />
+      </Container>
+    );
 
   return (
     <section className="pt-20">
       <Container>
         <SectionTitle text="Favorites" />
-        <ProductsGrid items={favItems.map((fav) => fav.item)} />
+        <ProductsGrid
+          items={favItems.map((fav) => ({ ...fav.item, isWishlisted: true }))}
+        />
       </Container>
     </section>
   );
-}
+} 

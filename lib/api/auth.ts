@@ -15,6 +15,9 @@ export const authService = {
   }): Promise<ApiResponse<User>> =>
     request(api.post("/auth/login", credentials), {} as User),
 
+  me: async (headers?: Record<string, string>): Promise<ApiResponse<User>> =>
+    request(api.get("/auth/me", { headers }), {} as User),
+
   logout: async (): Promise<ApiResponse<null>> =>
     request(api.post("/auth/logout"), null),
 };

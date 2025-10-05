@@ -6,7 +6,7 @@ import Container from "@/components/global/Container";
 import SingleProductCarousel from "@/components/single-product/SingleProductCarousel";
 import { itemService } from "@/lib/api/items";
 import { getSession } from "@/lib/session";
-import WishlistToggleForm from "@/components/products/WishlistToggleForm";
+import WishlistWrapper from "@/components/products/WishlistWrapper";
 
 export const revalidate = 0;
 
@@ -41,7 +41,7 @@ async function SingleProductPage({
           <div>
             <div className="flex gap-x-8 items-center">
               <h1 className="capitalize text-3xl font-bold">{name}</h1>
-              <WishlistToggleForm productId={id} isWishlisted={isWishlisted} />
+              <WishlistWrapper productId={id} isWishlisted={isWishlisted} />
             </div>
             <ProductRating productId={id} />
 

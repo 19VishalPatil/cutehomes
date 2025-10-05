@@ -2,7 +2,7 @@
 
 import { createContext, useContext, useEffect, useState } from "react";
 
-type User = { id: string; email: string; role: "customer" | "admin" };
+import { User } from "@/lib/api/types/customerTypes/customerTypes";
 
 type AuthContextType = {
   user: User | null;
@@ -18,37 +18,28 @@ const AuthContext = createContext<AuthContextType>({
   resetUser: () => {},
 });
 
-export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
-  const [user, setUser] = useState<User | null>(null);
+export const AuthProvider = ({
+  children,
+  user: initialUser,
+}: {
+  children: React.ReactNode;
+  user: User | null;
+}) => {
+  const [user, setUser] = useState(initialUser);
   const [loading, setLoading] = useState(true);
-
-  const fetchUser = async () => {
-    try {
-      const res = await fetch(
-        `${process.env.NEXT_PUBLIC_API_URL}/auth/me`,
-        { credentials: "include" } // send cookies
-      );
-
-      if (res.ok) {
-        const data = await res.json();
-        setUser(data.data);
-      } else {
-        setUser(null);
-      }
-    } catch {
-      setUser(null);
-    } finally {
-      setLoading(false);
-    }
-  };
 
   const resetUser = () => {
     setUser(null);
   };
 
   useEffect(() => {
-    fetchUser();
-  }, []);
+    if (!initialUser) {
+      resetUser();
+      setLoading(false);
+    } else {
+      setLoading(false);
+    }
+  }, [initialUser]);
 
   return (
     <AuthContext.Provider

@@ -1,7 +1,6 @@
 import Link from "next/link";
 import { Card, CardContent } from "@/components/ui/card";
 import Image from "next/image";
-import WishlistToggleForm from "./WishlistToggleForm";
 import WishlistWrapper from "./WishlistWrapper";
 
 export default function SingleProduct({
@@ -44,7 +43,6 @@ export default function SingleProduct({
         </Card>
       </Link>
       <div className="absolute top-3 right-3 z-5">
-        {/* <WishlistToggleForm productId={id} isWishlisted={isWishlisted} /> */}
         <WishlistWrapper productId={id} isWishlisted={isWishlisted} />
       </div>
     </article>

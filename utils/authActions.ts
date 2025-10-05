@@ -29,7 +29,7 @@ export const registerCustomerAction = async (
     // return field-level errors
     return { error: fieldErrors };
   }
-
+  
   // 2. Get token if available
   const cookieStore = await cookies();
   const accessToken = cookieStore.get("access_token")?.value;

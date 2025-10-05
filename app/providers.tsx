@@ -2,8 +2,15 @@
 import { ThemeProvider } from "@/app/theme-provider";
 import { Toaster } from "@/components/ui/sonner";
 import { AuthProvider } from "./_context/AuthContext";
+import { User } from "@/lib/api/types/customerTypes/customerTypes";
 
-export default function Providers({ children }: { children: React.ReactNode }) {
+export default function Providers({
+  children,
+  user,
+}: {
+  children: React.ReactNode;
+  user: User | null;
+}) {
   return (
     <>
       <Toaster />
@@ -13,7 +20,7 @@ export default function Providers({ children }: { children: React.ReactNode }) {
         enableSystem
         disableTransitionOnChange
       >
-        <AuthProvider>{children}</AuthProvider>
+        <AuthProvider user={user}>{children}</AuthProvider>
       </ThemeProvider>
     </>
   );
