@@ -5,11 +5,6 @@ type NavItem = {
   isActive?: boolean;
 };
 
-type AdminLinks = {
-  href: string;
-  label: string;
-};
-
 export const links: NavItem[] = [
   {
     title: "Home",
@@ -65,8 +60,24 @@ export const links: NavItem[] = [
   },
 ];
 
-export const adminLinks: AdminLinks[] = [
+export const adminLinks = [
   { href: "/admin/sales", label: "Sales" },
   { href: "/admin/products", label: "Products" },
   { href: "/admin/products/create", label: "Create Products" },
+];
+
+export const quickLinksData = [
+  { title: "About us", href: "/about" },
+  { title: "Contact us", href: "/contact" },
+  { title: "Terms & Conditions", href: "/terms" },
+  { title: "Privacy Policy", href: "/privacy" },
+  { title: "FAQs", href: "/faqs" },
+  { title: "Help", href: "/help" },
+];
+
+export const categoriesData = [
+  { title: "Metal Cars", href: "/products?metalcars" },
+  { title: "Keychains", href: "/products?keychins" },
+  { title: "Ceramic Mugs", href: "/products?ceramicmugs" },
+  { title: "Glass Mugs", href: "/products?glassmugs" },
 ];

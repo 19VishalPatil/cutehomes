@@ -11,15 +11,18 @@ import Logo from "./Logo";
 import { SearchBar } from "./SearchBar";
 import Container from "../global/Container";
 import LinksDropdown from "./LinksDropdown";
+import { usePathname } from "next/navigation";
+import FavoriteButton from "./FavoriteButton";
 
 const navigationLinks = [
-  { href: "/cars", label: "CARS" },
-  { href: "/toys", label: "TOYS" },
-  { href: "/puzzles", label: "PUZZLES" },
+  { href: "/", label: "Home" },
+  { href: "/about", label: "About Us" },
+  { href: "/products", label: "Shop" },
 ];
 
 export default function Navbar() {
   const [mobileSearchOpen, setMobileSearchOpen] = useState(false);
+  const pathName = usePathname();
 
   return (
     <header className="sticky top-0 z-50 w-full border-b backdrop-blur">
@@ -34,9 +37,22 @@ export default function Navbar() {
                 <Link
                   key={link.href}
                   href={link.href}
-                  className="text-sm font-medium transition-colors border-b-2 border-transparent hover:border-gray-300"
+                  className={`hover:text-shop_light_green hoverEffect relative group ${
+                    pathName === link.href && "text-shop_light_green"
+                  }`}
                 >
                   {link.label}
+                  <span
+                    className={`absolute -bottom-0.5 left-1/2 w-0 h-0.5 bg-shop_light_green group-hover:w-1/2 hoverEffect group-hover:left-0 ${
+                      pathName === link.href && "w-1/2"
+                    }`}
+                  ></span>
+                  <span
+                    className={`absolute -bottom-0.5 right-1/2 w-0 h-0.5 bg-shop_light_green
+                  group-hover:w-1/2 hoverEffect group-hover:right-0 ${
+                    pathName === link.href && "w-1/2"
+                  }`}
+                  ></span>
                 </Link>
               ))}
             </nav>
@@ -46,7 +62,7 @@ export default function Navbar() {
           <Logo />
 
           {/* Right section */}
-          <div className="flex items-center space-x-2">
+          <div className="flex items-center space-x-3">
             <div className="hidden lg:block">
               <SearchBar />
             </div>
@@ -62,6 +78,7 @@ export default function Navbar() {
 
             <DarkMode />
             <CartButton />
+            <FavoriteButton />
             <LinksDropdown />
           </div>
         </div>

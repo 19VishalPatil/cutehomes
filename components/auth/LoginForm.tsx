@@ -65,12 +65,14 @@ export default function LoginForm({ className, callbackUrl }: LoginFormProps) {
         <CardContent>
           <form onSubmit={handleSubmit}>
             <div className="flex flex-col gap-3">
+              <Label htmlFor="email">Email</Label>
               <Input
                 name="email"
                 type="email"
                 placeholder="m@example.com"
                 value={formData.email}
                 onChange={handleChange}
+                required
               />
               {errors.email && (
                 <p className="text-sm text-red-400">
@@ -93,6 +95,7 @@ export default function LoginForm({ className, callbackUrl }: LoginFormProps) {
                 name="password"
                 value={formData.password}
                 onChange={handleChange}
+                required
               />
               {errors.password && (
                 <p className="text-sm text-red-400">
@@ -103,7 +106,7 @@ export default function LoginForm({ className, callbackUrl }: LoginFormProps) {
               <div className="flex flex-col gap-3">
                 <Button
                   type="submit"
-                  className="w-full text-white"
+                  className="w-full bg-shop_btn_dark_green hover:bg-shop_light_green"
                   disabled={loading}
                 >
                   {loading ? "Logging in..." : "Login"}

@@ -1,23 +1,28 @@
 import api from "./axios";
 import { ApiResponse, request } from "./_request";
-import { Item } from "./types/itemTypes/item";
+import { Item, PaginationOptions } from "./types/itemTypes/item";
 import {
   defaultPaginatedResponse,
   PaginatedResponse,
 } from "./types/itemTypes/PaginatedResponse";
+import qs from "qs";
 
 export const itemService = {
   getAll: async (
-    headers?: Record<string, string>
-  ): Promise<ApiResponse<PaginatedResponse<Item>>> =>
-    request(
-      api.get("/items", {
+    headers?: Record<string, string>,
+    options?: PaginationOptions
+  ): Promise<ApiResponse<PaginatedResponse<Item>>> => {
+    const query = qs.stringify(options, { encodeValuesOnly: true });
+
+    return request(
+      api.get(`/items?${query}`, {
         headers: {
           ...headers,
         },
       }),
       defaultPaginatedResponse
-    ),
+    );
+  },
 
   getOne: async (id: string): Promise<ApiResponse<Item>> =>
     request(api.get(`/items/${id}`), {} as Item),

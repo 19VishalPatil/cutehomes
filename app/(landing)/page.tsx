@@ -2,7 +2,7 @@ import Container from "@/components/global/Container";
 import LoadingContainer from "@/components/global/LoadingContainer";
 import FeaturedProducts from "@/components/home/FeaturedProducts";
 import HeroCarousel from "@/components/home/HeroCarousel";
-import NewArrivals from "@/components/home/NewArrivals";
+import HomeProductsGrid from "@/components/home/HomeProductsGrid";
 import { itemService } from "@/lib/api/items";
 import { getSession } from "@/lib/session";
 import { Suspense } from "react";
@@ -25,7 +25,7 @@ export default async function HomePage() {
           <FeaturedProducts products={products} />
         </Suspense>
         <Suspense fallback={<LoadingContainer />}>
-          <NewArrivals products={products} />
+          <HomeProductsGrid products={products} />
         </Suspense>
       </Container>
     </>

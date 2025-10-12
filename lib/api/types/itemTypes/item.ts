@@ -16,3 +16,15 @@ export interface Item {
   updatedAt: string;
   isWishlisted: boolean;
 }
+
+export interface FilterOptions {
+  [key: string]: Record<string, string | number>;
+}
+
+export interface PaginationOptions {
+  page?: number;
+  limit?: number;
+  sort?: string;
+  search?: string;
+  filter?: FilterOptions;
+}

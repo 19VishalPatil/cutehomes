@@ -1,11 +1,12 @@
-import { Josefin_Sans } from "next/font/google";
+import { Josefin_Sans, Poppins } from "next/font/google";
 import "./globals.css";
 import Providers from "./providers";
 import { cookies } from "next/headers";
 import { authService } from "@/lib/api/auth";
 
-const josefin = Josefin_Sans({
+const poppins = Poppins({
   subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
   display: "swap",
 });
 
@@ -40,7 +41,7 @@ export default async function RootLayout({
 
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={`${josefin.className}  antialiased`}>
+      <body className={`${poppins.className}  antialiased`}>
         <Providers user={user}>{children}</Providers>
       </body>
     </html>

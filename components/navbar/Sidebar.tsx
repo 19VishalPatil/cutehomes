@@ -34,7 +34,7 @@ export default function AppSidebar({
         <SidebarMenu>
           <SidebarMenuItem>
             <SidebarMenuButton size="lg" asChild>
-              <Logo />
+              <Logo className="block w-[100px] h-[50px] relative mx-auto" />
             </SidebarMenuButton>
           </SidebarMenuItem>
         </SidebarMenu>
@@ -57,7 +57,7 @@ export default function AppSidebar({
                   >
                     <SidebarMenuItem>
                       <CollapsibleTrigger asChild>
-                        <SidebarMenuButton>
+                        <SidebarMenuButton className="text-sm text-gray-600 hover:text-shop_light_green data-[state=open]:text-shop_light_green hoverEffect">
                           {item.title}
                           <Plus className="ml-auto group-data-[state=open]/collapsible:hidden" />
                           <Minus className="ml-auto group-data-[state=closed]/collapsible:hidden" />
@@ -71,6 +71,7 @@ export default function AppSidebar({
                                 <SidebarMenuSubButton
                                   asChild
                                   isActive={child.isActive}
+                                  className="text-sm text-gray-600 hover:text-shop_light_green"
                                 >
                                   <a href={child.url}>{child.title}</a>
                                 </SidebarMenuSubButton>
