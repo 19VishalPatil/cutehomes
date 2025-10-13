@@ -7,13 +7,13 @@ export interface Item {
   slug: string;
   description?: string;
   media: ItemMedia[];
-  buyingPrice: number;
+  buyingPrice?: number;
   sellingPrice: number;
   hsnOrSacCode?: string;
   barcode?: string;
   categories: Category[];
-  createdAt: string;
-  updatedAt: string;
+  createdAt?: string;
+  updatedAt?: string;
   isWishlisted: boolean;
 }
 

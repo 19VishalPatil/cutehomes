@@ -6,16 +6,17 @@ import {
   PaginatedResponse,
 } from "./types/itemTypes/PaginatedResponse";
 import qs from "qs";
+import { buildQueryString } from "../utils";
 
 export const itemService = {
   getAll: async (
     headers?: Record<string, string>,
     options?: PaginationOptions
   ): Promise<ApiResponse<PaginatedResponse<Item>>> => {
-    const query = qs.stringify(options, { encodeValuesOnly: true });
+    const queryString = buildQueryString(options);
 
     return request(
-      api.get(`/items?${query}`, {
+      api.get(`/items?${queryString}`, {
         headers: {
           ...headers,
         },

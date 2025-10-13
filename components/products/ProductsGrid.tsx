@@ -20,7 +20,7 @@ export default function ProductsGrid() {
       // Build query parameters
       const queryParams = {
         page: 1,
-        limit: 10,
+        limit: 10,  
         filter:
           category !== "All"
             ? { "categories.name": { ilike: category } }
