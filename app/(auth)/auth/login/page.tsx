@@ -12,7 +12,6 @@ export default async function LoginPage() {
 
   return (
     <Suspense fallback={<Spinner />}>
-      {/* <LoginContent /> */}
       <LoginWrapper />
     </Suspense>
   );

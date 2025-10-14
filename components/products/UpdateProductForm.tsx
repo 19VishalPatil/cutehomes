@@ -33,6 +33,9 @@ export default function UpdateProductForm({
     barcode,
     hsnOrSacCode,
   } = product;
+
+  console.log(buyingPrice);
+
   return (
     <section>
       <h1 className="text-2xl font-semibold mb-8 capitalize">update product</h1>

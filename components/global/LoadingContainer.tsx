@@ -3,10 +3,10 @@ import { Card, CardContent } from "../ui/card";
 
 function LoadingContainer() {
   return (
-    <div className="pt-12 grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-      <LoadingProduct />
-      <LoadingProduct />
-      <LoadingProduct />
+    <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-2.5 mt-10">
+      {Array.from({ length: 10 }, (_, i) => (
+        <LoadingProduct key={i} />
+      ))}
     </div>
   );
 }

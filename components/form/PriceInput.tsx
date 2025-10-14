@@ -18,7 +18,7 @@ function PriceInput({ name, defaultValue, error }: FormInputNumberProps) {
         type="number"
         name={name}
         min={0}
-        defaultValue={defaultValue || 100}
+        defaultValue={defaultValue}
         required
         className={error ? "border-red-500 focus:border-red-500" : ""}
       />

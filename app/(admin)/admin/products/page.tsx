@@ -1,11 +1,16 @@
 import EmptyList from "@/components/global/EmptyList";
 import { itemService } from "@/lib/api/items";
 import ProductDataTable from "@/components/products/ProductDataTable";
+import { getSession } from "@/lib/session";
 
 export const revalidate = 0;
 
 async function ItemsPage() {
-  const res = await itemService.getAll();
+  const accessToken = await getSession();
+
+  const res = await itemService.getAllForAdmin({
+    ...(accessToken ? { Authorization: `Bearer ${accessToken}` } : {}),
+  });
 
   if (!res.success || res.data.items.length === 0) return <EmptyList />;
 

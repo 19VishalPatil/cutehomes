@@ -5,6 +5,9 @@ import SingleProduct from "./SingleProduct";
 import CategoryBar from "./CategoryBar";
 import { useEffect, useState } from "react";
 import { itemService } from "@/lib/api/items";
+import LoadingContainer from "../global/LoadingContainer";
+import EmptyList from "../global/EmptyList";
+import { AnimatePresence, motion } from "framer-motion";
 
 export default function ProductsGrid() {
   const [products, setProducts] = useState<Item[]>([]);
@@ -20,7 +23,7 @@ export default function ProductsGrid() {
       // Build query parameters
       const queryParams = {
         page: 1,
-        limit: 10,  
+        limit: 10,
         filter:
           category !== "All"
             ? { "categories.name": { ilike: category } }
@@ -43,25 +46,36 @@ export default function ProductsGrid() {
   return (
     <>
       <CategoryBar selectedTab={selectedTab} onTabSelect={setSelectedTab} />
-      <div className="pt-12 grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-        {products.map((item) => {
-          const { id, name, media, sellingPrice, slug, isWishlisted } = item;
-          const mediaImage = media.filter((m) => m.mime.startsWith("image/"))[0]
-            ?.path;
+      {loading ? (
+        <LoadingContainer />
+      ) : products.length ? (
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-2.5 mt-10">
+          {products.map((item) => {
+            const { id, name, media, sellingPrice, slug, isWishlisted } = item;
+            const mediaImage = media.filter((m) =>
+              m.mime.startsWith("image/")
+            )[0]?.path;
 
-          return (
-            <SingleProduct
-              key={id}
-              id={id}
-              name={name}
-              slug={slug}
-              mediaImage={mediaImage}
-              price={sellingPrice}
-              isWishlisted={isWishlisted}
-            />
-          );
-        })}
-      </div>
+            return (
+              <AnimatePresence key={item.id}>
+                <motion.div>
+                  <SingleProduct
+                    key={id}
+                    id={id}
+                    name={name}
+                    slug={slug}
+                    mediaImage={mediaImage}
+                    price={sellingPrice}
+                    isWishlisted={isWishlisted}
+                  />
+                </motion.div>
+              </AnimatePresence>
+            );
+          })}
+        </div>
+      ) : (
+        <EmptyList />
+      )}
     </>
   );
 }
