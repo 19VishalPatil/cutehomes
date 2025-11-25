@@ -10,11 +10,11 @@ import { CategoryMultiSelectInput } from "@/components/form/CategoryMultiSelectI
 import MediaInput from "@/components/form/MediaInput";
 import Image from "next/image";
 import { Label } from "@/components/ui/label";
-import { Item } from "@/lib/api/types/itemTypes/item";
+import { AdminItem } from "@/lib/api/types/itemTypes/item";
 import { Category } from "@/lib/api/types/itemTypes/category";
 
 interface UpdateProductFormProps {
-  product: Item;
+  product: AdminItem;
   categories: Category[];
 }
 
@@ -33,8 +33,6 @@ export default function UpdateProductForm({
     barcode,
     hsnOrSacCode,
   } = product;
-
-  console.log(buyingPrice);
 
   return (
     <section>

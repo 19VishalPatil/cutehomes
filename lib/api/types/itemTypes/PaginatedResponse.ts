@@ -1,5 +1,3 @@
-import { Item } from "./item";
-
 export interface PaginatedResponse<T> {
   items: T[];
   meta: {
@@ -17,7 +15,7 @@ export interface PaginatedResponse<T> {
   };
 }
 
-export const defaultPaginatedResponse: PaginatedResponse<Item> = {
+export const defaultPaginatedResponse = <T>(): PaginatedResponse<T> => ({
   items: [],
   meta: {
     itemsPerPage: 0,
@@ -32,4 +30,4 @@ export const defaultPaginatedResponse: PaginatedResponse<Item> = {
     prev: undefined,
     last: "",
   },
-};
+});

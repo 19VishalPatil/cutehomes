@@ -1,3 +1,4 @@
+import { Category } from "./category";
 import { ItemMedia } from "./itemMedia";
 
 export interface Item {
@@ -14,6 +15,10 @@ export interface Item {
   createdAt?: string;
   updatedAt?: string;
   isWishlisted: boolean;
+}
+
+export interface AdminItem extends Omit<Item, "categories"> {
+  categories: Category[];
 }
 
 export interface FilterOptions {

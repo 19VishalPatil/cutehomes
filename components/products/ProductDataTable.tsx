@@ -12,9 +12,9 @@ import {
 import Image from "next/image";
 import { IconButton } from "@/components/form/Buttons";
 import DeleteProductForm from "@/components/products/DeleteProductForm";
-import { Item } from "@/lib/api/types/itemTypes/item";
+import { AdminItem } from "@/lib/api/types/itemTypes/item";
 
-export default function ProductDataTable({ items }: { items: Item[] }) {
+export default function ProductDataTable({ items }: { items: AdminItem[] }) {
   return (
     <section>
       <Table>

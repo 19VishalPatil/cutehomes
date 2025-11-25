@@ -1,6 +1,6 @@
 import api from "./axios";
 import { ApiResponse, request } from "./_request";
-import { Item, PaginationOptions } from "./types/itemTypes/item";
+import { AdminItem, Item, PaginationOptions } from "./types/itemTypes/item";
 import {
   defaultPaginatedResponse,
   PaginatedResponse,
@@ -20,14 +20,14 @@ export const itemService = {
           ...headers,
         },
       }),
-      defaultPaginatedResponse
+      defaultPaginatedResponse()
     );
   },
 
   getAllForAdmin: async (
     headers?: Record<string, string>,
     options?: PaginationOptions
-  ): Promise<ApiResponse<PaginatedResponse<Item>>> => {
+  ): Promise<ApiResponse<PaginatedResponse<AdminItem>>> => {
     const queryString = buildQueryString(options);
 
     return request(
@@ -36,7 +36,7 @@ export const itemService = {
           ...headers,
         },
       }),
-      defaultPaginatedResponse
+      defaultPaginatedResponse()
     );
   },
 
@@ -46,14 +46,14 @@ export const itemService = {
   getOneForAdmin: async (
     id: string,
     headers?: Record<string, string>
-  ): Promise<ApiResponse<Item>> =>
+  ): Promise<ApiResponse<AdminItem>> =>
     request(
       api.get(`/admin/items/${id}`, {
         headers: {
           ...headers,
         },
       }),
-      {} as Item
+      {} as AdminItem
     ),
 
   getBySlug: async (
