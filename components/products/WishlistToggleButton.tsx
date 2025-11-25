@@ -17,14 +17,20 @@ export default function WishlistToggleButton({
       type="submit"
       size="icon"
       variant="outline"
-      className="p-2 cursor-pointer"
+      className={`flex items-center justify-center rounded-full bg-shop_glass p-2 border-none                   
+                   hover:bg-shop_dark_green hover:text-white hover:border-shop_dark_green
+                    hoverEffect ${
+                      isWishlisted
+                        ? "text-white bg-shop_dark_green border-none"
+                        : ""
+                    }`}
     >
       {pending ? (
         <IoReloadCircleOutline className="animate-spin" />
       ) : isWishlisted ? (
         <FaHeart />
       ) : (
-        <FaRegHeart />
+        <FaRegHeart className="text-white" />
       )}
     </Button>
   );

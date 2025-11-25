@@ -2,7 +2,6 @@ import SectionTitle from "@/components/global/SectionTitle";
 import ProductsSlider from "@/components/products/ProductSlider";
 import ViewAll from "@/components/global/ViewAll";
 import EmptyList from "../global/EmptyList";
-
 import { Item } from "@/lib/api/types/itemTypes/item";
 
 export default async function FeaturedProducts({

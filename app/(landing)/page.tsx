@@ -9,14 +9,37 @@ import { Suspense } from "react";
 
 export const revalidate = 0;
 
-export default async function HomePage() {
+interface HomePageProps {
+  searchParams: Promise<{
+    category?: string;
+  }>;
+}
+
+export default async function HomePage({ searchParams }: HomePageProps) {
   // get access token
   const accessToken = await getSession();
 
-  const result = await itemService.getAll({
-    ...(accessToken ? { Authorization: `Bearer ${accessToken}` } : {}),
-  });
+  const { category } = await searchParams;
+
+  const selectedCategory = category || "all";
+
+  const queryParams = {
+    page: 1,
+    limit: 10,
+    filter:
+      selectedCategory !== "all"
+        ? { "categories.name": { ilike: selectedCategory } }
+        : undefined,
+  };
+
+  const result = await itemService.getAll(
+    {
+      ...(accessToken ? { Authorization: `Bearer ${accessToken}` } : {}),
+    },
+    queryParams
+  );
   const products = result.data.items;
+
   return (
     <>
       <HeroCarousel />

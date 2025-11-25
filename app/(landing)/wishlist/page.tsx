@@ -25,10 +25,8 @@ export default async function WishlistPage() {
     <section className="pt-20">
       <Container>
         <SectionTitle text="Favorites" />
-        <ProductsGrid
-          items={favItems.map((fav) => ({ ...fav.item, isWishlisted: true }))}
-        />
+        {/* <ProductsGrid items={favItems} /> */}
       </Container>
     </section>
   );
-} 
+}

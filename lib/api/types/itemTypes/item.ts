@@ -1,4 +1,3 @@
-import { Category } from "./category";
 import { ItemMedia } from "./itemMedia";
 
 export interface Item {
@@ -11,7 +10,7 @@ export interface Item {
   sellingPrice: number;
   hsnOrSacCode?: string;
   barcode?: string;
-  categories: Category[];
+  categories: string[];
   createdAt?: string;
   updatedAt?: string;
   isWishlisted: boolean;

@@ -15,7 +15,7 @@ export default function HomeProductsGrid({ products }: HomeProductGridProps) {
     <div>
       <section className="pt-20">
         <SectionTitle text="Products" />
-        <ProductsGrid />
+        <ProductsGrid items={products} />
         <ViewAll className="mt-8" />
       </section>
     </div>
