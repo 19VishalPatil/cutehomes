@@ -1,23 +1,48 @@
-import { Item } from "@/lib/api/types/itemTypes/item";
 import EmptyList from "../global/EmptyList";
-import SectionTitle from "../global/SectionTitle";
 import ViewAll from "../global/ViewAll";
 import ProductsGrid from "../products/ProductsGrid";
+import { getSession } from "@/lib/session";
+import { itemService } from "@/lib/api/items";
 
 interface HomeProductGridProps {
-  products: Item[];
+  searchParams: Promise<{
+    category?: string;
+  }>;
 }
 
-export default function HomeProductsGrid({ products }: HomeProductGridProps) {
+export default async function HomeProductsGrid({
+  searchParams,
+}: HomeProductGridProps) {
+  // get access token
+  const accessToken = await getSession();
+
+  const { category } = await searchParams;
+
+  const selectedCategory = category || "all";
+
+  const queryParams = {
+    page: 1,
+    limit: 10,
+    filter:
+      selectedCategory !== "all"
+        ? { "categories.name": { ilike: selectedCategory } }
+        : undefined,
+  };
+
+  const result = await itemService.getAll(
+    {
+      ...(accessToken ? { Authorization: `Bearer ${accessToken}` } : {}),
+    },
+    queryParams
+  );
+  const products = result.data.items;
+
   if (products.length === 0) return <EmptyList />;
 
   return (
     <div>
-      <section className="pt-20">
-        <SectionTitle text="Products" />
-        <ProductsGrid items={products} />
-        <ViewAll className="mt-8" />
-      </section>
+      <ProductsGrid items={products} />
+      <ViewAll className="mt-8" />
     </div>
   );
 }

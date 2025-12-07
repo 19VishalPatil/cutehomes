@@ -1,12 +1,12 @@
 import BreadCrumbs from "@/components/single-product/BreadCrumbs";
-import { formatCurrency } from "@/utils/format";
-import AddToCart from "@/components/single-product/AddToCart";
-import ProductRating from "@/components/single-product/ProductRating";
 import Container from "@/components/global/Container";
 import SingleProductCarousel from "@/components/single-product/SingleProductCarousel";
 import { itemService } from "@/lib/api/items";
 import { getSession } from "@/lib/session";
 import WishlistWrapper from "@/components/products/WishlistWrapper";
+import PriceView from "@/components/global/PriceView";
+import { Button } from "@/components/ui/button";
+import { ShoppingBag } from "lucide-react";
 
 export const revalidate = 0;
 
@@ -24,34 +24,57 @@ async function SingleProductPage({
     ...(accessToken ? { Authorization: `Bearer ${accessToken}` } : {}),
   });
 
-  const { id, name, media, description, sellingPrice, isWishlisted } =
-    product.data;
+  const {
+    id,
+    name,
+    categories,
+    media,
+    description,
+    sellingPrice,
+    isWishlisted,
+  } = product.data;
 
-  const dollarsAmount = formatCurrency(sellingPrice);
   return (
     <Container>
-      <section className="pt-20">
+      <section className="pt-20 pb-20 ">
         <BreadCrumbs name={name} />
-        <div className="mt-6 grid gap-y-8 lg:grid-cols-2 lg:gap-x-16">
+        <div className="mt-6 md:grid gap-y-8 md:grid-cols-2 md:gap-x-10">
           {/* Media FIRST COL */}
-          <div className="relative h-full">
+          <div className="w-full mb-5 md:sticky md:top-24 h-fit">
             <SingleProductCarousel mediaName={name} media={media} />
           </div>
           {/* PRODUCT INFO SECOND COL */}
-          <div>
-            <div className="flex gap-x-8 items-center">
-              <h1 className="capitalize text-3xl font-bold">{name}</h1>
+          <div className="w-full flex flex-col gap-5">
+            <div className="space-y-2">
+              <h1 className="text-2xl">{name}</h1>
+              <p className="text-sm text-gray-600 tracking-wide ">
+                {categories.map((cat) => (
+                  <span
+                    key={cat}
+                    className="text-xs border-b border-t border-shop_light_green py-1 px-2 rounded-md text-shop_dark_green mr-2"
+                  >
+                    {cat}
+                  </span>
+                ))}
+              </p>
+            </div>
+            <div>
+              <PriceView price={sellingPrice} className="text-lg font-bold" />
+              <span className="text-xs text-gray-600">
+                Price incl. of all taxes
+              </span>
+            </div>
+            <div className="flex items-center justify-between gap-2.5 lg:gap-5">
+              <Button className="flex-1 bg-shop_dark_green/80 text-lightBg shadow-none border border-shop_dark_green/80 font-semibold tracking-wide text-white hover:bg-shop_dark_green hover:border-shop_dark_green hoverEffect">
+                <ShoppingBag /> Add to Cart
+              </Button>
+
               <WishlistWrapper productId={id} isWishlisted={isWishlisted} />
             </div>
-            <ProductRating productId={id} />
-
-            <p className="mt-3 text-md bg-muted inline-block p-2 rounded-md">
-              {dollarsAmount}
-            </p>
-            <p className="mt-6 leading-8 text-muted-foreground">
-              {description}
-            </p>
-            <AddToCart productId={id} />
+            <div>
+              <h4 className="mb-2">Product Description:</h4>
+              <p className="text-gray-600">{description}</p>
+            </div>
           </div>
         </div>
       </section>

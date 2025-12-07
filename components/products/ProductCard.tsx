@@ -29,13 +29,13 @@ export default function ProductCard({
         <WishlistWrapper productId={id} isWishlisted={isWishlisted} />
       </div>
       <Link href={`/products/${slug}`}>
-        <div className="relative w-full h-64 sm:aspect-square sm:h-auto rounded overflow-hidden bg-shop_light_bg">
+        <div className="relative w-full h-64 sm:aspect-square sm:h-auto rounded-t overflow-hidden bg-shop_light_bg">
           <Image
             src={mediaImage}
             alt={name}
             fill
             priority
-            className="rounded w-full object-cover transform group-hover:scale-110 transition-transform hoverEffect"
+            className="rounded-t w-full object-cover transform group-hover:scale-110 transition-transform hoverEffect"
             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
           />
         </div>

@@ -1,5 +1,3 @@
-"use client";
-
 import Container from "@/components/global/Container";
 import LoadingContainer from "@/components/global/LoadingContainer";
 

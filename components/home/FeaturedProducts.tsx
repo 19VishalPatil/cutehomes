@@ -2,13 +2,19 @@ import SectionTitle from "@/components/global/SectionTitle";
 import ProductsSlider from "@/components/products/ProductSlider";
 import ViewAll from "@/components/global/ViewAll";
 import EmptyList from "../global/EmptyList";
-import { Item } from "@/lib/api/types/itemTypes/item";
 
-export default async function FeaturedProducts({
-  products,
-}: {
-  products: Item[];
-}) {
+import { getSession } from "@/lib/session";
+import { itemService } from "@/lib/api/items";
+
+export default async function FeaturedProducts() {
+  // get access token
+  const accessToken = await getSession();
+
+  const result = await itemService.getAll({
+    ...(accessToken ? { Authorization: `Bearer ${accessToken}` } : {}),
+  });
+  const products = result.data.items;
+
   if (products.length === 0) return <EmptyList />;
 
   //temp
@@ -16,10 +22,9 @@ export default async function FeaturedProducts({
   const featuredProducts = products.slice(0, 5);
 
   return (
-    <section className="pt-20">
-      <SectionTitle text="featured products" />
+    <>
       <ProductsSlider items={featuredProducts} />
       <ViewAll />
-    </section>
+    </>
   );
 }

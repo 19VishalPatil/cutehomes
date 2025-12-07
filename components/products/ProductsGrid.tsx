@@ -1,7 +1,6 @@
 "use client";
 
 import { Item } from "@/lib/api/types/itemTypes/item";
-import CategoryBar from "./CategoryBar";
 import EmptyList from "../global/EmptyList";
 import ProductCard from "./ProductCard";
 import { AnimatePresence, motion } from "framer-motion";
@@ -9,7 +8,6 @@ import { AnimatePresence, motion } from "framer-motion";
 export default function ProductsGrid({ items }: { items: Item[] }) {
   return (
     <>
-      <CategoryBar />
       {items.length ? (
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2.5 mt-10">
           {items.map((item) => {
